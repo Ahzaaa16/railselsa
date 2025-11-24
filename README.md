@@ -1,5 +1,5 @@
 <<<<<<< HEAD
-# railselsa
+# Dalila Inventory
 Project Percobaan Ruby Rails
 =======
 # README
