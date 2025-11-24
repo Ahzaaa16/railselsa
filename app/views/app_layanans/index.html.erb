@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Layanan Kami</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 p-6">
+<div class="min-h-screen text-white py-10">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="flex justify-between items-center mb-10">
+      <h1 class="text-3xl font-bold">Daftar Layanan</h1>
+      <%= link_to "Tambah Layanan", new_app_layanan_path, class: "bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-lg shadow-md transition-all" %>
+    </div>
+
+    <% if notice %>
+      <div class="mb-6 p-4 bg-green-100 text-green-800 rounded-lg shadow-sm">
+        <%= notice %>
+      </div>
+    <% end %>
+
+    <% if @app_layanans.any? %>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <% @app_layanans.each do |layanan| %>
+          <div class="bg-white shadow-lg rounded-2xl overflow-hidden hover:shadow-2xl transition-all">
+            <% if layanan.gambar.present? %>
+              <%= image_tag layanan.gambar, alt: layanan.nama, class: "w-full h-48 object-cover" %>
+            <% else %>
+              <div class="w-full h-48 bg-gray-200 flex items-center justify-center">
+                <span>Tidak ada gambar</span>
+              </div>
+            <% end %>
+
+            <div class="p-5">
+              <h2 class="text-xl font-semibold text-indigo-600 mb-2"><%= layanan.nama %></h2>
+              <p class="text-sm mb-4 line-clamp-3 text-indigo-600"><%= layanan.deskripsi %></p>
+              <div class="flex justify-between items-center">
+                <span class="text-indigo-600 font-semibold">Rp <%= number_to_currency(layanan.harga, unit: "", precision: 0) %></span>
+                <span class="bg-indigo-600 text-white px-3 py-1 rounded-full text-xs font-medium "><%= layanan.kategori %></span>
+              </div>
+
+              <div class="mt-4 flex justify-between">
+                <%= link_to "Edit", edit_app_layanan_path(layanan), class: "text-sm text-blue-600 hover:underline" %>
+                <%= link_to "Hapus", app_layanan_path(layanan),
+                            data: { turbo_method: :delete, turbo_confirm: "Yakin ingin menghapus layanan ini?" },
+                            class: "text-sm text-red-600 hover:underline" %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <p class=" text-center mt-10">Belum ada layanan yang tersedia.</p>
+    <% end %>
+  </div>
+</div>
+
+  </body>
+</html>

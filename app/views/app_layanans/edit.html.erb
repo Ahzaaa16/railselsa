@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Tambah Layanan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 p-6">
+    <div class="min-h-screen bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 flex items-center justify-center py-10 px-4">
+    <div class="w-full max-w-2xl bg-white/90 backdrop-blur-md shadow-2xl rounded-2xl p-8">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">Tambah Layanan Baru</h1>
+
+        <%= form_with(model: @app_layanan, local: true, html: { multipart: true }, class: "space-y-6") do |form| %>
+        <% if @app_layanan.errors.any? %>
+            <div class="bg-red-100 text-red-700 p-4 rounded-lg mb-4">
+            <h2 class="font-semibold"><%= pluralize(@app_layanan.errors.count, "error") %> terjadi:</h2>
+            <ul class="list-disc list-inside text-sm">
+                <% @app_layanan.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+                <% end %>
+            </ul>
+            </div>
+        <% end %>
+
+        <div>
+            <%= form.label :nama, "Nama Layanan", class: "block text-sm font-medium text-gray-700 mb-2" %>
+            <%= form.text_field :nama, class: "w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm" %>
+        </div>
+
+        <div>
+            <%= form.label :deskripsi, "Deskripsi", class: "block text-sm font-medium text-gray-700 mb-2" %>
+            <%= form.text_area :deskripsi, rows: 4, class: "w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm" %>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+            <%= form.label :harga, "Harga (Rp)", class: "block text-sm font-medium text-gray-700 mb-2" %>
+            <%= form.number_field :harga, step: "0.01", class: "w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm" %>
+            </div>
+            <div>
+            <%= form.label :kategori, "Kategori", class: "block text-sm font-medium text-gray-700 mb-2" %>
+            <%= form.text_field :kategori, class: "w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm" %>
+            </div>
+        </div>
+
+        <div>
+            <%= form.label :gambar, "Upload Gambar", class: "block text-sm font-medium text-gray-700 mb-2" %>
+            <%= form.file_field :gambar, direct_upload: true, accept: "image/*", class: "w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm", onchange: "previewImage(event)" %>
+            <div id="preview" class="mt-3"></div>
+        </div>
+
+        <div class="flex items-center space-x-2">
+            <%= form.check_box :status, class: "h-4 w-4 text-indigo-600 border-gray-300 rounded" %>
+            <%= form.label :status, "Aktif", class: "text-sm text-gray-700" %>
+        </div>
+
+        <div class="flex justify-center mt-6">
+            <%= form.submit "💾 Simpan Layanan", class: "bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-2 rounded-lg shadow-md transition-all" %>
+        </div>
+        <% end %>
+
+        <div class="text-center text-purple-600 mt-6">
+        <%= link_to "← Kembali ke daftar layanan", app_layanans_path, class: "text-lg transition-all" %>
+        </div>
+    </div>
+    </div>
+
+    <script>
+    function previewImage(event) {
+        const file = event.target.files[0];
+        const preview = document.getElementById('preview');
+        preview.innerHTML = "";
+        if (file) {
+        const img = document.createElement("img");
+        img.src = URL.createObjectURL(file);
+        img.classList = "mt-3 w-48 h-48 object-cover rounded-lg shadow-md";
+        preview.appendChild(img);
+        }
+    }
+    </script>
+
+  </body>
+</html>
